@@ -1,0 +1,12 @@
+diff -up vinagre-2.28.1/vinagre/vinagre-connect.c.history-crash vinagre-2.28.1/vinagre/vinagre-connect.c
+--- vinagre-2.28.1/vinagre/vinagre-connect.c.history-crash	2010-01-04 20:37:20.282194058 -0500
++++ vinagre-2.28.1/vinagre/vinagre-connect.c	2010-01-04 20:37:29.269077172 -0500
+@@ -203,7 +203,7 @@ saved_history (void)
+     {
+       history_from_file = g_strsplit (file_contents, "\n", 0);
+       len = g_strv_length (history_from_file);
+-      if (strlen (history_from_file[len-1]) == 0)
++      if (len > 0 && strlen (history_from_file[len-1]) == 0)
+ 	{
+ 	  g_free (history_from_file[len-1]);
+ 	  history_from_file[len-1] = NULL;

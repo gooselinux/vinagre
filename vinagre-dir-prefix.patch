@@ -1,0 +1,64 @@
+diff -up vinagre-2.28.1/vinagre/vinagre-dirs.c.dir-prefix vinagre-2.28.1/vinagre/vinagre-dirs.c
+--- vinagre-2.28.1/vinagre/vinagre-dirs.c.dir-prefix	2010-03-21 21:16:38.801527711 -0400
++++ vinagre-2.28.1/vinagre/vinagre-dirs.c	2010-03-21 21:23:30.029530994 -0400
+@@ -27,16 +27,22 @@ vinagre_dirs_get_user_config_dir ()
+ 
+ #ifndef G_OS_WIN32
+ 	const gchar *home;
+-	
+-	home = g_get_home_dir ();
++        const gchar *override;
+ 
+-	if (home != NULL)
+-	{
+-		config_dir = g_build_filename (home,
+-					       ".gnome2",
+-					       "vinagre",
+-					       NULL);
+-	}
++        override = g_getenv ("GNOME22_USER_DIR");
++        if (override)
++        {
++                config_dir = g_build_filename (override,
++                                               "vinagre",
++                                               NULL);
++        }
++        else
++        {
++                config_dir = g_build_filename (g_get_home_dir (),
++                                               ".gnome2",
++                                               "vinagre",
++                                               NULL);
++}
+ #else
+ 	config_dir = g_build_filename (g_get_user_config_dir (),
+ 				       "vinagre",
+@@ -81,15 +87,23 @@ vinagre_dirs_get_user_accels_file ()
+ 
+ #ifndef G_OS_WIN32
+ 	const gchar *home;
+-	
+-	home = g_get_home_dir ();
++        const gchar *override;
+ 
+-	if (home != NULL)
+-	{
++        override = g_getenv ("GNOME22_USER_DIR");
++
++        if (override)
++        {
++                accels = g_build_filename (override,
++                                           "accels",
++                                           "vinagre",
++                                           NULL);
++        }
++        else
++        {
+ 		/* on linux accels are stored in .gnome2/accels
+ 		 * for historic reasons (backward compat with the
+ 		 * old libgnome that took care of saving them */
+-		accels = g_build_filename (home,
++		accels = g_build_filename (g_get_home_dir (),
+ 					   ".gnome2",
+ 					   "accels",
+ 					   "vinagre",
